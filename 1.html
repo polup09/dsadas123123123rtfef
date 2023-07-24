@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма ввода данных</title>
+</head>
+<body>
+    <form id="lockForm">
+        <!-- Форма для ввода данных lock -->
+        <label for="lock">Lock:</label>
+        <input type="text" id="lock" name="lock" required>
+
+        <button type="button" onclick="submitLockData()">Отправить данные</button>
+
+        <script>
+            function submitLockData() {
+                const lock = document.getElementById('lock').value;
+
+                // Отправка POST-запроса на сервер Node.js на локальном хосте
+                fetch('http://localhost:3000/process-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `lock=${encodeURIComponent(lock)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // Отправляем данные message2 на сервер
+                    const lock2 = 'Новый текст для lock2 после первого ввода';
+                    fetch('http://localhost:3000/process-data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `lock2=${encodeURIComponent(lock2)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Произошла ошибка:', error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Произошла ошибка:', error);
+                });
+            }
+        </script>
+    </form>
+</body>
+</html>

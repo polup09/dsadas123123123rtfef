@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма ввода данных</title>
+</head>
+<body>
+    <form id="telegramForm2">
+        <!-- Форма для ввода данных message2 -->
+        <label for="message2">Message2:</label>
+        <input type="text" id="message2" name="message2" required>
+
+        <button type="button" onclick="submitMessage2Data()">Отправить данные</button>
+
+        <script>
+            function submitMessage2Data() {
+                const message2 = document.getElementById('message2').value;
+
+                // Отправка POST-запроса на сервер Node.js на локальном хосте
+                fetch('http://localhost:3000/process-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `lock2=${encodeURIComponent(message2)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Произошла ошибка:', error);
+                });
+            }
+        </script>
+    </form>
+</body>
+</html>
